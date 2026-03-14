@@ -191,8 +191,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = 'Preencha o nome do banco e o usuário.';
         } elseif (!$dbPfx) {
             $error = 'Prefixo inválido. Use apenas letras minúsculas, números e underscore.';
-        } elseif ($rawPrefix !== $dbPfx) {
-            $error = 'Prefixo inválido ("' . htmlspecialchars($rawPrefix) . '"). Use apenas letras minúsculas, números e _ (resultado seria: "' . $dbPfx . '").';
         } else {
             try {
                 $pdo = testDbConnection($dbHost, $dbName, $dbUser, $dbPass, $dbPort);

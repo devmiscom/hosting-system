@@ -5,7 +5,7 @@
  */
 
 // ─── Error handling ────────────────────────────────────────────────────────────
-define('APP_DEBUG', getenv('APP_DEBUG') === 'true' || false);
+define('APP_DEBUG', getenv('APP_DEBUG') === 'true');
 
 if (APP_DEBUG) {
     ini_set('display_errors', 1);

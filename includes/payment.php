@@ -139,9 +139,6 @@ class MercadoPagoProcessor extends PaymentProcessor {
     }
 }
 
-// Stripe zero-decimal currencies (amount is not multiplied by 100)
-const STRIPE_ZERO_DECIMAL_CURRENCIES = ['bif','clp','gnf','mga','pyg','rwf','ugx','vnd','xaf','xof'];
-
 // ─── PayPal ───────────────────────────────────────────────────────────────────
 
 class PayPalProcessor extends PaymentProcessor {
@@ -305,6 +302,9 @@ class PayPalProcessor extends PaymentProcessor {
 
 class StripeProcessor extends PaymentProcessor {
 
+    /** Currencies where amounts must NOT be multiplied by 100 */
+    private const ZERO_DECIMAL_CURRENCIES = ['bif','clp','gnf','mga','pyg','rwf','ugx','vnd','xaf','xof'];
+
     private function request(string $method, string $endpoint, array $data = []): array {
         $url = 'https://api.stripe.com/v1' . $endpoint;
         $ch  = curl_init();
@@ -341,7 +341,7 @@ class StripeProcessor extends PaymentProcessor {
     public function createCheckout(array $order, string $successUrl, string $cancelUrl): string {
         $currency = strtolower($order['currency'] ?? 'brl');
         // Stripe amounts are in smallest currency unit (zero-decimal currencies are not multiplied)
-        $multiplier = in_array($currency, STRIPE_ZERO_DECIMAL_CURRENCIES) ? 1 : 100;
+        $multiplier = in_array($currency, self::ZERO_DECIMAL_CURRENCIES) ? 1 : 100;
         $unitAmount = (int)round((float)$order['amount'] * $multiplier);
 
         $data = [

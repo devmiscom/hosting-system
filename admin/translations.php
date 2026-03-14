@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             foreach ($strings as $key => $value) {
                 $key   = preg_replace('/[^a-z0-9_]/', '', strtolower((string)$key));
                 $value = trim((string)$value);
-                if ($key) {
+                if ($key && strlen($key) <= 255) {
                     $stmt->execute([$langId, $key, $value]);
                 }
             }
