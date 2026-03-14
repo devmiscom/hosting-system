@@ -1,0 +1,27 @@
+RewriteEngine On
+RewriteBase /
+
+# Block access to sensitive files
+<FilesMatch "\.(env|sql|log|sh|bak|php\.bak)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Block direct access to config files (except via index.php)
+<FilesMatch "^(db|installed)\.php$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Block install directory after setup
+RewriteCond %{REQUEST_URI} ^/install [NC]
+RewriteCond %{DOCUMENT_ROOT}/config/installed.php -f
+RewriteRule ^ /index.php [L,R=302]
+
+# Let existing files and directories pass through
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Route everything else through index.php
+RewriteRule ^ /index.php [QSA,L]
