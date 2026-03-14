@@ -1,0 +1,172 @@
+/*
+ * Custom styles – uses CSS variables set by admin settings
+ */
+
+/* ── Variables ────────────────────────────────────────────────────────────── */
+:root {
+  --primary-color:   #0d6efd;
+  --secondary-color: #6610f2;
+  --body-bg:         #f8f9fa;
+  --card-radius:     0.75rem;
+  --transition-speed: 0.2s;
+}
+
+/* ── Base ──────────────────────────────────────────────────────────────────── */
+body {
+  background-color: var(--body-bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+/* ── Navbar ────────────────────────────────────────────────────────────────── */
+.navbar {
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+
+.navbar-brand {
+  font-size: 1.25rem;
+  letter-spacing: -.3px;
+}
+
+/* ── Cards ─────────────────────────────────────────────────────────────────── */
+.card {
+  border-radius: var(--card-radius);
+  border: 1px solid rgba(0,0,0,.07);
+}
+
+.card-header {
+  border-radius: var(--card-radius) var(--card-radius) 0 0 !important;
+}
+
+/* Hover lift effect */
+.hover-lift {
+  transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,.12) !important;
+}
+
+/* ── Buttons ────────────────────────────────────────────────────────────────── */
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color:     var(--primary-color);
+}
+.btn-primary:hover {
+  background-color: color-mix(in srgb, var(--primary-color) 85%, black);
+  border-color:     color-mix(in srgb, var(--primary-color) 85%, black);
+}
+
+.btn-outline-primary {
+  color:        var(--primary-color);
+  border-color: var(--primary-color);
+}
+.btn-outline-primary:hover {
+  background-color: var(--primary-color);
+  border-color:     var(--primary-color);
+  color: #fff;
+}
+
+/* ── Tables ────────────────────────────────────────────────────────────────── */
+.table th {
+  font-weight: 600;
+  font-size: .85rem;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  color: #6c757d;
+}
+
+.table td, .table th {
+  vertical-align: middle;
+  padding: .65rem .75rem;
+}
+
+/* ── Badges ────────────────────────────────────────────────────────────────── */
+.badge {
+  font-weight: 500;
+  letter-spacing: .03em;
+  padding: .35em .65em;
+}
+
+/* ── Pagination ────────────────────────────────────────────────────────────── */
+.page-link {
+  color: var(--primary-color);
+}
+.page-item.active .page-link {
+  background-color: var(--primary-color);
+  border-color:     var(--primary-color);
+}
+
+/* ── Forms ─────────────────────────────────────────────────────────────────── */
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 .25rem color-mix(in srgb, var(--primary-color) 25%, transparent);
+}
+
+/* ── Alert ─────────────────────────────────────────────────────────────────── */
+.alert {
+  border-radius: var(--card-radius);
+}
+
+/* ── Wizard (install) ──────────────────────────────────────────────────────── */
+.wizard-card .card {
+  box-shadow: 0 4px 24px rgba(0,0,0,.10);
+}
+
+/* ── Sidebar-like nav on admin (large screens) ─────────────────────────────── */
+@media (min-width: 992px) {
+  .container-fluid {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+/* ── Responsive images ─────────────────────────────────────────────────────── */
+img {
+  max-width: 100%;
+}
+
+/* ── Footer ────────────────────────────────────────────────────────────────── */
+footer {
+  background-color: #fff;
+}
+
+/* ── Utility ────────────────────────────────────────────────────────────────── */
+.font-monospace {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+}
+
+.text-truncate-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── Payment method selection ──────────────────────────────────────────────── */
+.btn-check:checked + label.btn-outline-secondary {
+  background-color: var(--primary-color) !important;
+  border-color:     var(--primary-color) !important;
+  color: #fff !important;
+}
+
+/* ── Step indicator (install wizard) ──────────────────────────────────────── */
+.step-indicator span {
+  transition: background var(--transition-speed);
+}
+
+/* ── Toast / flash override ────────────────────────────────────────────────── */
+#flash-messages .alert {
+  animation: slideDown .3s ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0);     }
+}
