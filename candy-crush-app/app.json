@@ -1,0 +1,19 @@
+{
+  "expo": {
+    "name": "Candy Crush",
+    "slug": "candy-crush-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": false
+    },
+    "android": {
+      "package": "com.devmiscom.candycrush",
+      "adaptiveIcon": {
+        "backgroundColor": "#1A0A2E"
+      }
+    }
+  }
+}
