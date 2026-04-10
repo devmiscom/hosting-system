@@ -37,6 +37,10 @@ const CELL_SIZE = (BOARD_INNER - CELL_GAP * (GRID_SIZE + 1)) / GRID_SIZE;
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
+/** Return the score target for a given level number. */
+const getTargetScore = level =>
+  LEVEL_TARGETS[level - 1] ?? LEVEL_TARGETS[LEVEL_TARGETS.length - 1];
+
 // ─── Component ─────────────────────────────────────────────────────────────────
 export default function GameScreen({ navigation }) {
   // ── Source-of-truth refs (safe to read inside async callbacks) ──────────────
@@ -53,7 +57,6 @@ export default function GameScreen({ navigation }) {
   const [moves,            setMoves]            = useState(MOVES_PER_LEVEL);
   const [level,            setLevel]            = useState(1);
   const [selectedCell,     setSelectedCell]     = useState(null);
-  const [isProcessing,     setIsProcessing]     = useState(false);  // eslint-disable-line no-unused-vars
   const [showLevelComplete,setShowLevelComplete]= useState(false);
   const [showGameOver,     setShowGameOver]     = useState(false);
   const [comboDisplay,     setComboDisplay]     = useState(0);
@@ -152,7 +155,6 @@ export default function GameScreen({ navigation }) {
     // ── Adjacent cell tapped → attempt swap ───────────────────────────────
     setSelectedCell(null);
     processingRef.current = true;
-    setIsProcessing(true);
 
     const selCandy = currentBoard[selRow][selCol];
     const tapCandy = currentBoard[row][col];
@@ -181,7 +183,6 @@ export default function GameScreen({ navigation }) {
       await sleep(260);
       syncBoard(currentBoard);
       processingRef.current = false;
-      setIsProcessing(false);
       return;
     }
 
@@ -196,7 +197,7 @@ export default function GameScreen({ navigation }) {
     if (!mountedRef.current) return;
 
     // Check win / lose conditions
-    const target = LEVEL_TARGETS[levelRef.current - 1] ?? LEVEL_TARGETS[LEVEL_TARGETS.length - 1];
+    const target = getTargetScore(levelRef.current);
     if (finalScore >= target) {
       setShowLevelComplete(true);
     } else if (movesRef.current <= 0) {
@@ -210,7 +211,6 @@ export default function GameScreen({ navigation }) {
 
     setComboDisplay(0);
     processingRef.current = false;
-    setIsProcessing(false);
   }, [selectedCell, showGameOver, showLevelComplete, syncBoard, processCascade, flashPopup]);
 
   // ── Level-complete handler ──────────────────────────────────────────────────
@@ -239,7 +239,7 @@ export default function GameScreen({ navigation }) {
   }, [syncBoard]);
 
   // ── Derived display values ──────────────────────────────────────────────────
-  const targetScore = LEVEL_TARGETS[level - 1] ?? LEVEL_TARGETS[LEVEL_TARGETS.length - 1];
+  const targetScore = getTargetScore(level);
   const progress    = Math.min(score / targetScore, 1);
 
   // ── Render ─────────────────────────────────────────────────────────────────
